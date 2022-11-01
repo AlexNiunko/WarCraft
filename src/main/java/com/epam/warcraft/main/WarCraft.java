@@ -6,63 +6,41 @@ import com.epam.warcraft.entity.*;
 
 public class WarCraft {
     public static void main(String[] args) {
-        Humans humans1 =new Humans(123,10,5);
-        Humans humans2 =new Humans(124,10,5);
-        Humans humans3 =new Humans(125,10,5);
-        Humans humans4 =new Humans(126,10,5);
-        Humans humans5 =new Humans(127,10,5);
-        NightElfs nightElfs1=new NightElfs(221,12,6);
-        NightElfs nightElfs2=new NightElfs(221,12,6);
-        NightElfs nightElfs3=new NightElfs(221,12,6);
-        NightElfs nightElfs4=new NightElfs(221,12,6);
-        Orcs orc1=new Orcs(331,14,4);
-        Orcs orc2=new Orcs(331,14,4);
-        Orcs orc3=new Orcs(331,14,4);
-        Orcs orc4=new Orcs(331,14,4);
-        Undead undead1=new Undead(441,7,5);
-        Undead undead2=new Undead(441,7,5);
-        Undead undead3=new Undead(441,7,5);
-        Undead undead4=new Undead(441,7,5);
-        Humans anduinLotar=new Humans(111,20,10);
-        NightElfs illidan=new NightElfs(222,15,17);
-        Orcs thrall=new Orcs(333,25,7);
-        Undead archimond=new Undead(444,18,14);
-        UnitComposite humansArmy=new UnitComposite();
-        UnitComposite orcsArmy=new UnitComposite();
-        UnitComposite nightElfsArmy=new UnitComposite();
-        UnitComposite undeadArmy=new UnitComposite();
-        humansArmy.add(humans1);
-        humansArmy.add(humans2);
-        humansArmy.add(humans3);
-        humansArmy.add(humans4);
-        humansArmy.add(humans5);
-        nightElfsArmy.add(nightElfs1);
-        nightElfsArmy.add(nightElfs2);
-        nightElfsArmy.add(nightElfs3);
-        nightElfsArmy.add(nightElfs4);
-        orcsArmy.add(orc1);
-        orcsArmy.add(orc2);
-        orcsArmy.add(orc3);
-        orcsArmy.add(orc4);
-        undeadArmy.add(undead1);
-        undeadArmy.add(undead2);
-        undeadArmy.add(undead3);
-        undeadArmy.add(undead4);
+        UnitComponent human1=new Unit(10,5,101,Race.HUMAN);
+        UnitComponent human2=new Unit(10,5,102,Race.HUMAN);
+        UnitComponent nightElf1=new Unit(8,12,201,Race.NIGHT_ELF);
+        UnitComponent nightElf2=new Unit(8,12,201,Race.NIGHT_ELF);
+        UnitComponent orc1=new Unit(12,8,201,Race.ORC);
+        UnitComponent orc2=new Unit(12,8,201,Race.ORC);
+        UnitComponent undead1=new Unit(12,8,301,Race.UNDEAD);
+        UnitComponent undead2=new Unit(12,8,301,Race.UNDEAD);
+        UnitComponent anduinLotar=new Unit(20,15,110,Race.HUMAN);
+        UnitComponent Thrall=new Unit(25,12,210,Race.ORC);
+
+        UnitComposite groupHumans=new UnitComposite();
+        UnitComposite groupOrcs=new UnitComposite();
+        UnitComposite groupUndead=new UnitComposite();
+        UnitComposite groupNightElf=new UnitComposite();
         UnitComposite alliance=new UnitComposite();
         UnitComposite scourge=new UnitComposite();
-        alliance.add(humansArmy);
-        alliance.add(nightElfsArmy);
-        scourge.add(orcsArmy);
-        scourge.add(undeadArmy);
-        scourge.attack(alliance);
-        System.out.println(alliance);
-
-
-
-
-
-
-
+        groupUndead.add(undead1);
+        groupUndead.add(undead2);
+        groupHumans.add(human1);
+        groupHumans.add(human2);
+        groupOrcs.add(orc1);
+        groupOrcs.add(orc2);
+        groupNightElf.add(nightElf1);
+        groupNightElf.add(nightElf2);
+        alliance.add(groupHumans);
+        alliance.add(groupNightElf);
+        alliance.add(anduinLotar);
+        scourge.add(groupOrcs);
+        scourge.add(groupUndead);
+        scourge.add(Thrall);
+        alliance.inflictDamage(scourge);
+        anduinLotar.inflictDamage(groupHumans);
+        anduinLotar.inflictDamage(groupHumans);
+        System.out.println(groupHumans);
 
 
 

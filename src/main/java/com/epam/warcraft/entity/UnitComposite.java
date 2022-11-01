@@ -4,77 +4,77 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 
-public class UnitComposite extends AbstractUnit implements UnitComponent {
+public class UnitComposite implements UnitComponent {
 
-    private List<AbstractUnit> unitComponents = new ArrayList<>();
+    private List<UnitComponent> unitComponents = new ArrayList<>();
 
-
-    public void add(AbstractUnit unit) {
+    public void add(UnitComponent unit) {
         unitComponents.add(unit);
     }
 
-    public AbstractUnit getUnit(int i) {
-        return unitComponents.get(i);
-    }
-
-    public List<AbstractUnit> getUnitComponents() {
+    public List<UnitComponent> getUnitComponents() {
         return unitComponents;
     }
 
     @Override
-    public int count() {
-        return (int) unitComponents.stream().count();
-    }
-
-    @Override
-    public int damage() {
-        return unitComponents.stream()
-                .map(unit -> unit.getDamage())
-                .reduce(0, (acc, x) -> acc + x);
+    public int attack() {
+        int resAttack = 0;
+        for (UnitComponent unit : unitComponents) {
+            resAttack += unit.attack();
+        }
+        return resAttack;
     }
 
     @Override
     public int healthPoint() {
-        return unitComponents.stream()
-                .map(unit -> unit.getHealthPoint())
-                .reduce(0, (acc, x) -> acc + x);
+        int resHealthPoint = 0;
+        for (UnitComponent unit : unitComponents) {
+            resHealthPoint += unit.healthPoint();
+        }
+        return resHealthPoint;
     }
 
 
     @Override
-    public void attack(UnitComposite units) {
-        int averageDamage = damage() / units.getUnitComponents().size();
-        for (AbstractUnit unit : units.getUnitComponents()) {
-            if (averageDamage > unit.getHealthPoint()) {
-                unit.setHealthPoint(0);
-                unit.setCondition("Dead");
-                unit.setDamage(0);
-            } else {
-                unit.setHealthPoint(unit.getHealthPoint() - averageDamage);
-            }
+    public void setHealthUnit(int healthPoint) {
+        for (UnitComponent unit : unitComponents) {
+            unit.setHealthUnit(healthPoint);
+        }
+
+    }
+
+    @Override
+    public void dead() {
+        for (UnitComponent unit : unitComponents) {
+            unit.dead();
         }
     }
 
-//    @Override
-//    public void attack(List<UnitComposite> units) {
-//        int averageDamageList=damage()/units.size();
-//        for (UnitComposite list:units) {
-//            int averageDamageUnit=averageDamageList/list.getUnitComponents().size();
-//            for (AbstractUnit unitt: list.getUnitComponents()) {
-//                if (averageDamageUnit > unitt.getHealthPoint()) {
-//                    unitt.setHealthPoint(0);
-//                    unitt.setCondition("Dead");
-//                    unitt.setDamage(0);
-//                } else {
-//                    unitt.setHealthPoint(unitt.getHealthPoint() - averageDamageUnit);
-//                }
-//            }
-//        }
-//    }
+    @Override
+    public int count() {
+        int resCount = 0;
+        for (UnitComponent unit : unitComponents) {
+            resCount += unit.count();
+        }
+        return resCount;
+    }
+
+    @Override
+    public UnitComponent inflictDamage(UnitComponent unit) {
+        if (this.attack() > unit.healthPoint()) {
+            for (UnitComponent currentUnit : unitComponents) {
+                unit.setHealthUnit(0);
+                unit.dead();
+            }
+        } else {
+            unit.setHealthUnit(unit.healthPoint() / unit.count() - this.attack() / this.count());
+        }
+        return unit;
+    }
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", UnitComposite.class.getSimpleName() + "[", "]")
+        return new StringJoiner(", ", "[", "]")
                 .add("unitComponents=" + unitComponents)
                 .toString();
     }
