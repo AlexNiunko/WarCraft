@@ -33,14 +33,11 @@ public class WarCraft {
         groupNightElf.add(nightElf2);
         alliance.add(groupHumans);
         alliance.add(groupNightElf);
-        alliance.add(anduinLotar);
         scourge.add(groupOrcs);
         scourge.add(groupUndead);
         scourge.add(Thrall);
         alliance.inflictDamage(scourge);
-        anduinLotar.inflictDamage(groupHumans);
-        anduinLotar.inflictDamage(groupHumans);
-        System.out.println(groupHumans);
+        System.out.println(scourge);
 
 
 
